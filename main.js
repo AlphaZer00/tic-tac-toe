@@ -38,14 +38,21 @@ const gameManager = (function() {
     
     const getCurrentPlayer = () => {
         if (round % 2) {
-            return player1.getSign();
-        } else {
             return player2.getSign();
+        } else {
+            return player1.getSign();
         }
     }
 
     const playRound = (index) => {
-        return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
+        if (checkEmpty(index) == false) {
+            return;
+        } else if (checkEmpty(index)) {
+            round++;
+            console.log(round);
+            return gameBoard.setBoardSpace(index, getCurrentPlayer());
+        }
+
     }
 
     const checkEmpty = (i) => {
@@ -55,6 +62,7 @@ const gameManager = (function() {
             return false;
         }
     }
+    
 
     return {playRound, getCurrentPlayer, checkEmpty}
 })();
