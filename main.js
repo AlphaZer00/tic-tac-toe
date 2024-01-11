@@ -4,11 +4,12 @@ const gameBoard = (function() {
         board.push("");
     }
 
-    const setBoard = (i, sign) => {
-      board[i] = sign;
+    const setBoardSpace = (i, sign) => {
+        board[i] = sign;
+        return board;
     }
       
-    const getBoard = (i) => {
+    const getBoardSpace = (i) => {
         return board[i];
     }
 
@@ -18,7 +19,7 @@ const gameBoard = (function() {
         }
     }
 
-    return {setBoard, getBoard, clearBoard};
+    return {setBoardSpace, getBoardSpace, clearBoard};
 })();
 
 const player = (sign) => {
@@ -30,14 +31,11 @@ const player = (sign) => {
 };
 
 const gameManager = (function() {
-    let isOver = false;
+    //let isOver = false;
     let round = 1;
     const player1 = player('X');
     const player2 = player('O');
-
-    const playRound = (index) => {
-        gameBoard.setBoard(index, getCurrentPlayer());
-    }
+    
     const getCurrentPlayer = () => {
         if (round % 2) {
             return player1.getSign();
@@ -46,5 +44,17 @@ const gameManager = (function() {
         }
     }
 
-    return {playRound, getCurrentPlayer}
+    const playRound = (index) => {
+        return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
+    }
+
+    const checkEmpty = (i) => {
+        if (gameBoard.getBoardSpace(i) === "") {
+            return true;
+        } else if (!(gameBoard.getBoardSpace(i) === "")) {
+            return false;
+        }
+    }
+
+    return {playRound, getCurrentPlayer, checkEmpty}
 })();
