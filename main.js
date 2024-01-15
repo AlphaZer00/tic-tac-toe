@@ -52,7 +52,7 @@ const gameManager = (function() {
             console.log(round);
             return gameBoard.setBoardSpace(index, getCurrentPlayer());
         }
-
+        
     }
 
     const checkEmpty = (i) => {
@@ -62,7 +62,36 @@ const gameManager = (function() {
             return false;
         }
     }
+
+    const checkWin = () => {
+        const winCombos = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+        ];
+
+        const checkSameSign = () => {
+            for (let i = 0; i < winCombos.length; i++) {
+                const combo = winCombos[i];
+                const values = combo.map(index => gameBoard.getBoardSpace(index));
+        
+                if (values.every(value => value === 'X')) {
+                    return 'X wins!';
+                } else if (values.every(value => value === 'O')) {
+                    return 'O wins!';
+                }
+            }
+        
+            return null;
+        }
+        return checkSameSign();
+    }
     
 
-    return {playRound, getCurrentPlayer, checkEmpty}
+    return {playRound, getCurrentPlayer, checkEmpty, checkWin}
 })();
