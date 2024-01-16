@@ -46,13 +46,27 @@ const gameManager = (function() {
 
     const playRound = (index) => {
         if (checkEmpty(index) == false) {
-            return;
-        } else if (checkEmpty(index)) {
+            return "Pick a blank space!";
+        } 
+
+        if (round === 9 && checkWin() == null) {
+            return "It's a tie!";
+        }
+
+        if (round > 4) {
+            console.log(round);
+            round++;
+            gameBoard.setBoardSpace(index, getCurrentPlayer());
+            if (checkWin()) {
+                return checkWin();
+            } else if (checkWin() == null) {
+                return gameBoard.setBoardSpace(index, getCurrentPlayer());
+            }
+        } else if (round < 5) {
             round++;
             console.log(round);
             return gameBoard.setBoardSpace(index, getCurrentPlayer());
         }
-        
     }
 
     const checkEmpty = (i) => {
@@ -93,5 +107,5 @@ const gameManager = (function() {
     }
     
 
-    return {playRound, getCurrentPlayer, checkEmpty, checkWin}
+    return {playRound, getCurrentPlayer, checkEmpty, checkWin};
 })();
