@@ -1,0 +1,13 @@
+.cell {
+    width: 150px;
+    height: 150px;
+    background-color: blue;
+    border: 1px solid black;
+    margin: 0px;
+}
+
+.board {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    width: fit-content;
+}
