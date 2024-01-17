@@ -46,7 +46,7 @@ const gameManager = (function() {
 
     const playRound = (index) => {
         if (checkEmpty(index) == false) {
-            return "Pick a blank space!";
+            return console.log("Pick a blank space!");
         } 
 
         if (round === 9 && checkWin() == null) {
@@ -56,16 +56,18 @@ const gameManager = (function() {
         if (round > 4) {
             console.log(round);
             round++;
-            gameBoard.setBoardSpace(index, getCurrentPlayer());
-            if (checkWin()) {
-                return checkWin();
-            } else if (checkWin() == null) {
-                return gameBoard.setBoardSpace(index, getCurrentPlayer());
+            gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
+            gameManager.updateBoard(index);
+            if (gameManager.checkWin()) {
+                return gameManager.checkWin();
+            } else if (gameManager.checkWin() == null) {
+                return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             }
         } else if (round < 5) {
             round++;
             console.log(round);
-            return gameBoard.setBoardSpace(index, getCurrentPlayer());
+            gameManager.updateBoard(index);
+            return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
         }
     }
 
@@ -105,7 +107,22 @@ const gameManager = (function() {
         }
         return checkSameSign();
     }
+
+
+    const updateBoard = (index) => {
+        const target = document.querySelector(`[data-index="${index}"]`);
+        target.textContent = gameManager.getCurrentPlayer();
+    }
     
 
-    return {playRound, getCurrentPlayer, checkEmpty, checkWin};
+    return {playRound, getCurrentPlayer, checkEmpty, checkWin, updateBoard};
+})();
+
+(function () {
+    const boardElement = document.querySelector(".board");
+    const cells = document.querySelectorAll(".cell");
+
+    cells.forEach(cell => cell.addEventListener("click", function(e) {
+        gameManager.playRound(e.target.getAttribute("data-index"));
+    }));
 })();
