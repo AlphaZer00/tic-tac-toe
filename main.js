@@ -50,7 +50,8 @@ const gameManager = (function() {
         } 
 
         if (round === 9 && checkWin() == null) {
-            return "It's a tie!";
+            gameManager.updateBoard(index);
+            return console.log("It's a tie!");
         }
 
         if (round > 4) {
@@ -59,13 +60,13 @@ const gameManager = (function() {
             gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             gameManager.updateBoard(index);
             if (gameManager.checkWin()) {
-                return gameManager.checkWin();
+                return console.log("win");
             } else if (gameManager.checkWin() == null) {
                 return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             }
         } else if (round < 5) {
-            round++;
             console.log(round);
+            round++;
             gameManager.updateBoard(index);
             return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
         }
@@ -108,13 +109,11 @@ const gameManager = (function() {
         return checkSameSign();
     }
 
-
     const updateBoard = (index) => {
         const target = document.querySelector(`[data-index="${index}"]`);
         target.textContent = gameManager.getCurrentPlayer();
     }
     
-
     return {playRound, getCurrentPlayer, checkEmpty, checkWin, updateBoard};
 })();
 
