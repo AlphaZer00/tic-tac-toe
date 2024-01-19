@@ -111,7 +111,8 @@ const gameManager = (function() {
 
     const updateBoard = (index) => {
         const target = document.querySelector(`[data-index="${index}"]`);
-        target.textContent = gameManager.getCurrentPlayer();
+        let sign = gameManager.getCurrentPlayer();
+        target.classList.add(`display${sign}`);
     }
     
     return {playRound, getCurrentPlayer, checkEmpty, checkWin, updateBoard};

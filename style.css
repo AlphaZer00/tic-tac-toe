@@ -26,14 +26,14 @@ body {
     height: 5rem;
 }
 
-.display-x {
+.displayX {
     background-image: url(assets/close_FILL0_wght400_GRAD0_opsz24.svg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100%;
 }
 
-.display-o {
+.displayO {
     background-image: url(assets/circle_FILL0_wght400_GRAD0_opsz24.svg);
     background-repeat: no-repeat;
     background-position: center center;
