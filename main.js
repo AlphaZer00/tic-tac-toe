@@ -19,7 +19,12 @@ const gameBoard = (function() {
         }
     }
 
-    return {setBoardSpace, getBoardSpace, clearBoard};
+    const updateMessage = (text) => {
+        const display = document.querySelector(".display");
+        display.textContent = text;
+    }
+
+    return {setBoardSpace, getBoardSpace, clearBoard, updateMessage};
 })();
 
 const player = (sign) => {
@@ -45,27 +50,32 @@ const gameManager = (function() {
     }
 
     const playRound = (index) => {
+        //Check for selected cell being empty
         if (checkEmpty(index) == false) {
-            return console.log("Pick a blank space!");
+            return gameBoard.updateMessage("Pick a blank space!");
         } 
 
+        //Check fot tie
         if (round === 9 && checkWin() == null) {
             gameManager.updateBoard(index);
-            return console.log("It's a tie!");
+            return gameBoard.updateMessage("It's a tie!");
         }
 
+        // Check for win after move is played only during rounds in which win is possible (round 5+)
         if (round > 4) {
-            console.log(round);
+            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
             round++;
             gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             gameManager.updateBoard(index);
+
             if (gameManager.checkWin()) {
-                return console.log("win");
+                return gameBoard.updateMessage(`${getCurrentPlayer()} wins!`);
             } else if (gameManager.checkWin() == null) {
                 return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             }
+        // When win is not possible just play round without checking for win
         } else if (round < 5) {
-            console.log(round);
+            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
             round++;
             gameManager.updateBoard(index);
             return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
