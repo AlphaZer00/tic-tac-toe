@@ -40,6 +40,11 @@ const gameManager = (function() {
     let round = 1;
     const player1 = player('X');
     const player2 = player('O');
+
+    const resetRound = () => {
+        round = 1;
+        return round;
+    }
     
     const getCurrentPlayer = () => {
         if (round % 2) {
@@ -50,29 +55,49 @@ const gameManager = (function() {
     }
 
     const playRound = (index) => {
+        //Check if game has ended and reset
+        const resetGame = () => {
+            resetRound();
+            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
+            gameBoard.clearBoard();
+            wipeBoard();
+        }
+        
+        if (round > 9 && checkWin() === null|| checkWin()) {
+            return resetGame();
+        }
+        
         //Check for selected cell being empty
         if (checkEmpty(index) == false) {
             return gameBoard.updateMessage("Pick a blank space!");
         } 
 
-        //Check fot tie
-        if (round === 9 && checkWin() == null) {
-            gameManager.updateBoard(index);
-            return gameBoard.updateMessage("It's a tie!");
-        }
-
+        //Check for tie
         // Check for win after move is played only during rounds in which win is possible (round 5+)
-        if (round > 4) {
-            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
+        
+        if (round > 8) {
             round++;
             gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             gameManager.updateBoard(index);
+            if (checkWin()) {
+                return gameBoard.updateMessage(`${getCurrentPlayer()} wins!`);
+            } else if (checkWin() === null) {
+                return gameBoard.updateMessage("It's a tie!");
+            }
 
+        } else if (round > 4) {
+            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
+            round++;
+            console.log(round);
+            gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
+            gameManager.updateBoard(index);
+            
             if (gameManager.checkWin()) {
                 return gameBoard.updateMessage(`${getCurrentPlayer()} wins!`);
             } else if (gameManager.checkWin() == null) {
                 return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             }
+
         // When win is not possible just play round without checking for win
         } else if (round < 5) {
             gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
@@ -124,12 +149,16 @@ const gameManager = (function() {
         let sign = gameManager.getCurrentPlayer();
         target.classList.add(`display${sign}`);
     }
+
+    const wipeBoard = () => {
+        const cells = document.querySelectorAll(".cell");
+        return cells.forEach(cell => cell.classList.remove("displayX","displayO"));
+    }
     
-    return {playRound, getCurrentPlayer, checkEmpty, checkWin, updateBoard};
+    return {playRound, getCurrentPlayer, checkEmpty, checkWin, updateBoard, wipeBoard};
 })();
 
 (function () {
-    const boardElement = document.querySelector(".board");
     const cells = document.querySelectorAll(".cell");
 
     cells.forEach(cell => cell.addEventListener("click", function(e) {
