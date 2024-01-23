@@ -11,6 +11,7 @@ body {
 h1 {
     font-size: 4rem;
 }
+
 .cell {
     width: 150px;
     height: 150px;
@@ -23,6 +24,7 @@ h1 {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     width: fit-content;
+    background-color: #B5E48C;
 }
 
 .display {
@@ -67,4 +69,20 @@ h1 {
 
 .footer a {
     color: white;
+}
+
+.hoverX {
+    background-image: url(assets/close_FILL0_wght400_GRAD0_opsz24.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    opacity: .5;
+}
+
+.hoverO {
+    background-image: url(assets/circle_FILL0_wght400_GRAD0_opsz24.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 85%;
+    opacity: .5;
 }

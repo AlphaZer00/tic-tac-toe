@@ -164,3 +164,23 @@ const gameManager = (function() {
         gameManager.playRound(e.target.getAttribute("data-index"));
     }));
 })();
+
+(function () {
+    const cells = document.querySelectorAll(".cell:not(.displayX), .cell:not(.displayO)");
+
+    cells.forEach(cell => cell.addEventListener("mouseover", function(e) {
+        if (e.target.classList.contains("displayX") || e.target.classList.contains("displayO")){
+            return;
+        }
+        if (gameManager.getCurrentPlayer() === "X") {
+            cell.classList.add("hoverO");
+        } else if (gameManager.getCurrentPlayer() === "O") {
+            cell.classList.add("hoverX");
+        }
+    }));
+
+    cells.forEach(cell => cell.addEventListener("mouseleave", function(e) {
+        cell.classList.remove("hoverX");
+        cell.classList.remove("hoverO");
+    }));
+})();
