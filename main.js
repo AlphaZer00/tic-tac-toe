@@ -58,9 +58,9 @@ const gameManager = (function() {
         //Check if game has ended and reset
         const resetGame = () => {
             resetRound();
-            gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
             gameBoard.clearBoard();
             wipeBoard();
+            gameBoard.updateMessage(`It's X's turn`);
         }
         
         if (round > 9 && checkWin() === null|| checkWin()) {
@@ -71,10 +71,8 @@ const gameManager = (function() {
         if (checkEmpty(index) == false) {
             return gameBoard.updateMessage("Pick a blank space!");
         } 
-
-        //Check for tie
-        // Check for win after move is played only during rounds in which win is possible (round 5+)
         
+        //If its final round, play a move and then check for win or tie
         if (round > 8) {
             round++;
             gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
@@ -84,7 +82,8 @@ const gameManager = (function() {
             } else if (checkWin() === null) {
                 return gameBoard.updateMessage("It's a tie!");
             }
-
+        
+        //If round is 5 or higher, win is now possible, play move and check for win
         } else if (round > 4) {
             gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
             round++;
@@ -98,7 +97,7 @@ const gameManager = (function() {
                 return gameBoard.setBoardSpace(index, gameManager.getCurrentPlayer());
             }
 
-        // When win is not possible just play round without checking for win
+        // When win is not possible just play move without checking for win
         } else if (round < 5) {
             gameBoard.updateMessage(`It's ${getCurrentPlayer()}'s turn`);
             round++;
